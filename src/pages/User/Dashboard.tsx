@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { HomeIcon, UsersIcon } from "@heroicons/react/24/outline";
+import BlogsTable from "./_partials/BlogsTable";
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
 
   return (
     <div className="flex h-screen">
+      {/* Sidebar - fixed height, non-scrollable */}
       <div className="w-60 bg-white p-3 mt-16">
         <ul>
           <li
@@ -14,7 +16,7 @@ const Sidebar = () => {
             }`}
             onClick={() => setActiveTab("dashboard")}
           >
-            <div className="flex gap-x-2 items-center  ">
+            <div className="flex gap-x-2 items-center">
               <HomeIcon className="w-5 h-5" />
               Dashboard
             </div>
@@ -25,22 +27,26 @@ const Sidebar = () => {
             }`}
             onClick={() => setActiveTab("user")}
           >
-            <div className="flex gap-x-2 items-center  ">
+            <div className="flex gap-x-2 items-center">
               <UsersIcon className="w-5 h-5" />
-              User
+              Blogs
             </div>
           </li>
         </ul>
       </div>
 
-      {/* Main Content */}
-      <div className=" bg-gray-200 w-full">
-        <header className="bg-blue-600 text-white py-4 ml-53 px-6 text-2xl font-bold shadow-md w-full fixed top-0 left-0 z-10">
+      {/* Main Content Wrapper */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Fixed Header */}
+        <header className="bg-blue-400 text-white py-4 px-6 text-2xl font-bold shadow-md w-full z-10">
           Spell CMSssss
         </header>
-        <div className="text-3xl font-semibold mt-20 ml-4">
-          {activeTab === "dashboard" && <div>Dashboard</div>}
-          {activeTab === "user" && <div>Nirmal Saru Magar</div>}
+
+        <div className="flex-1 bg-gray-100 overflow-y-auto p-4">
+          <div className="text-3xl font-semibold">
+            {activeTab === "dashboard" && <div>Dashboard</div>}
+            {activeTab === "user" && <BlogsTable />}
+          </div>
         </div>
       </div>
     </div>
