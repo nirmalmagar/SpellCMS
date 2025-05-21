@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import {
   TrashIcon,
   PencilSquareIcon,
@@ -23,6 +23,7 @@ type BlogItem = {
 
 const BlogsTable = () => {
   const [showPopUpModal, setShowPopUpModal] = useState<boolean>(false);
+  const [showEditPopUpModal, setShowEditPopUpModal] = useState<boolean>(false);
   const [inputFieldValue, setInputFieldValue] = useState<
     Record<string, string>
   >({});
@@ -85,12 +86,147 @@ const BlogsTable = () => {
   const handleCloseTap = () => {
     setShowPopUpModal(false);
   };
+
+
+  // edit part 
+  const handleEditBlogs = async (id: string) => {
+    try {
+      const response = await fetch(`https://682b094fab2b5004cb38ca4e.mockapi.io/api/v1/blocklists${id}`, {
+        method: "PUT",
+      });
+      const data = response.json();
+      if (response.ok) {
+        alert("update blogs successfully");
+        setShowEditPopUpModal(false);
+      } else {
+        alert("something went wrong");
+      }
+    } catch (e) {
+      console.error("error ", e);
+    }
+  };
+
   useEffect(() => {
     fetchBlogs();
   }, []);
 
   return (
     <>
+
+    {/* edit modal */}
+    <Modal
+        show={showEditPopUpModal}
+        handleClose={handleCloseTap}
+        modalTitle="Add Blog"
+        size="lg"
+      >
+        <form id="lead-form" onSubmit={handleAddBlogs}>
+          <div className=" px-4 py-4 rounded-lg border border-gray-200">
+          <div className="flex gap-x-4 items-center">
+            <div className="relative w-12 h-12">
+              {imageUrl ? (
+                <img
+                  className="rounded w-20 h-10 object-cover"
+                  src={imageUrl}
+                  alt="image link"
+                />
+              ) : (
+                <PhotoIcon
+                  className="h-full w-full text-primary-500"
+                  aria-hidden="true"
+                />
+              )}
+            </div>
+            <InputField
+              labelClassName="text-black"
+              className="flex flex-col"
+              label="Cover"
+              name="cover"
+              type="file"
+              accept="image/*"
+              onChange={(e) => ImageChangeHandler(e)}
+            />
+            {imageUrl && (
+              <Btn
+                onClick={() => setImageUrl(null)}
+                className="bg-red-500 text-white font-semibold mb-0"
+              >
+                remove
+              </Btn>
+            )}
+          </div>
+            <InputField
+              type="text"
+              label="Title"
+              name="title"
+              placeholder="Enter title"
+              onChange={(e: any) => {
+                handleFieldChange("title", e.target.value);
+              }}
+            />
+            <InputField
+              type="text"
+              label="Author"
+              name="author"
+              placeholder="Enter author"
+              defaultValue={inputFieldValue?.author}
+              onChange={(e: any) => {
+                handleFieldChange("author", e.target.value);
+              }}
+            />
+            <InputField
+              type="text"
+              label="Category"
+              name="category"
+              placeholder="Enter category"
+              defaultValue={inputFieldValue?.category}
+              onChange={(e: any) => {
+                handleFieldChange("category", e.target.value);
+              }}
+            />
+            <InputField
+              type="text"
+              label="Tags"
+              name="tags"
+              placeholder="Enter tags"
+              defaultValue={inputFieldValue?.tags} 
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                handleFieldChange("tags", e.target.value);
+              }}
+            />
+
+            <InputField
+              type="date"
+              label="Created at"
+              name="created_at"
+              placeholder="enter created date"
+              defaultValue={inputFieldValue?.created_at}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                handleFieldChange("created_at", e.target.value);
+              }}
+            />
+
+            <div className="bg-white sticky left-4 bottom-0 right-4 pt-6 border-gray-200 flex items-end  justify-between">
+              <Btn
+                outline="error"
+                className="border border-red-500 text-red-500"
+                onClick={() => {
+                  setShowPopUpModal(false);
+                  setInputFieldValue({});
+                }}
+              >
+                Cancel
+              </Btn>
+
+              <div className="flex gap-x-4">
+                <Btn type="submit" className="bg-blue-600 text-white">
+                  Submit
+                </Btn>
+              </div>
+            </div>
+          </div>
+        </form>
+      </Modal>
       <Modal
         show={showPopUpModal}
         handleClose={handleCloseTap}
@@ -294,7 +430,7 @@ const BlogsTable = () => {
                         >
                           <TrashIcon className="h-[18px] w-[18px] hover:text-red-500" />
                         </button>
-                        <button className="ml-3 cursor-pointer">
+                        <button onClick={() => handleEditBlogs(data.id)} className="ml-3 cursor-pointer">
                           <PencilSquareIcon className="h-[18px] w-[18px] hover:text-blue-700" />
                         </button>
                       </div>
