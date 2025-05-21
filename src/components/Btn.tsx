@@ -59,7 +59,7 @@ const Btn: React.FC<BtnProps> = ({
       className={`${baseClasses} 
         
         //  outlineClassesStr != "" ? outlineClassesStr : colorClassesStr} 
-        ${sizeClassesStr} ${className} disabled:opacity-40 disabled:cursor-not-allowed`}
+        ${sizeClassesStr} ${className} disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer`}
       style={{
         boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
         ...styles,

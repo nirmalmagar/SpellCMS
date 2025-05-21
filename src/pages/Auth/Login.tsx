@@ -88,7 +88,7 @@ const Login: React.FC = () => {
           </div>
           <div className="mt-4 flex items-center justify-center">
             <button
-              className="w-1/2 text-white text-center py-1.5 rounded-lg font-semibold bg-blue-400"
+              className="w-1/2 text-white cursor-pointer text-center py-1.5 rounded-lg font-semibold bg-blue-400"
               type={"submit"}
               disabled={isLoading}
             >

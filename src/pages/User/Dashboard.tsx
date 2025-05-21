@@ -1,13 +1,14 @@
 import { useState } from "react";
+import DropdownUser from "../../components/Header/UserNavbar";
 import { HomeIcon, UsersIcon } from "@heroicons/react/24/outline";
 import BlogsTable from "./_partials/BlogsTable";
+import DarkModeSwitcher from "../../components/DarkModeSwitcher";
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
 
   return (
     <div className="flex h-screen">
-      {/* Sidebar - fixed height, non-scrollable */}
       <div className="w-60 bg-white p-3 mt-16">
         <ul>
           <li
@@ -38,8 +39,11 @@ const Sidebar = () => {
       {/* Main Content Wrapper */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Fixed Header */}
-        <header className="bg-blue-400 text-white py-4 px-6 text-2xl font-bold shadow-md w-full z-10">
-          Spell CMSssss
+        <header className="bg-blue-400 text-white py-4 px-6 flex justify-end items-center text-2xl font-bold shadow-md w-full z-10">
+          <div className="flex items-center space-x-20">
+            <DarkModeSwitcher />
+            <DropdownUser />
+          </div>
         </header>
 
         <div className="flex-1 bg-gray-100 overflow-y-auto p-4">
