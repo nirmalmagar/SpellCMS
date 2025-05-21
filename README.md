@@ -24,4 +24,11 @@ cd spell-cms
 npm i     // install all the used packages
 npm start  // to run the project
 
+
+# process to go on user dashboard
+
+1. click login button 
+2. email: nirmal@gmail.com
+    password:nirmal@123
+
 ```
